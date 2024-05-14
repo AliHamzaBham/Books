@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Collection</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="mt-5 mb-3">Book Collection</h1>
+        <div class="row" id="bookList">
+            <!-- Books will be dynamically added here -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="./personal_development.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Assuming your JSON data is stored in a variable called 'books'
+            var books = personalDevelopemnt
+            // Function to populate books on the page
+            function populateBooks() {
+                var bookList = $('#bookList');
+                bookList.empty(); // Clear existing content
+
+                books.forEach(function (book, index) {
+                    var card = $('<div class="col-md-4"></div>');
+                    var cardHtml = `
+                <div class="card">
+                    <img src="${book.img}" class="card-img-top" alt="${book.title}">
+                    <div class="card-body">
+                        <h5 class="card-title">${book.name}</h5>
+                        <p class="card-text">Author: ${book.author}</p>
+                        <p class="excerpt">${book.excerpt}</p>
+                        <p>Duration: ${book.duration}</p>
+                        <p>Rating: ${book.rating}</p>
+                        <a href="details.html?id=${index}"><button class="btn btn-primary btn-read-more" data-toggle="modal" data-target="#bookModal" data-index="${index}">Read More</button></a>
+                    </div>
+                </div>
+            `;
+                    card.html(cardHtml);
+                    bookList.append(card);
+                });
+            }
+
+            // Call the function to initially populate books
+            populateBooks();
+
+            // Function to populate modal with book details
+            $('#bookModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var index = button.data('index');
+                var modal = $(this);
+                var book = books[index];
+                modal.find('.modal-title').text(book.title);
+                modal.find('.modal-body').html(`<p>${book.text}</p>`);
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div style="margin: 20px">
+        <a href="index.html">Go back</a>
+    
+    </div>
+    <div class="container mt-5">
+        <h1 class="title-text"></h1>
+        <div id="bookDetails" class="mt-4">
+            <!-- Book details will be dynamically added here -->
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="details.js"></script>
+
+    <script src="personal_development.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            // Assuming your JSON data is stored in a variable called 'books'
+            var books = personalDevelopemnt
+
+            // Get the index of the book from the URL
+            var urlParams = new URLSearchParams(window.location.search);
+            var index = urlParams.get('id');
+
+            // Display book details
+            if (index !== null && index >= 0 && index < books.length) {
+                var book = books[index];
+                document.querySelector('.title-text').textContent = book["name"]
+                var bookDetails = $('#bookDetails');
+                var detailsHtml = `
+            <img src=${book.img}></img>
+            <p><strong>Author:</strong> ${book.author}</p>
+            <p><strong>Excerpt:</strong> ${book.excerpt}</p>
+            <p><strong>Duration:</strong> ${book.duration}</p>
+            <p><strong>Rating:</strong> ${book.rating}</p>
+            <p><strong>Text:</strong></p>
+            <p>${book.text}</p>
+        `;
+                bookDetails.html(detailsHtml);
+            } else {
+                // If index is invalid, display an error message
+                $('#bookDetails').html('<p>Invalid book index.</p>');
+            }
+        });
+
+    </script>
+</body>
+
+</html>
